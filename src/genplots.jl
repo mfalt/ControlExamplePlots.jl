@@ -8,21 +8,21 @@ function runplotgen()
   genplots(funcs, refs)
 end
 
-@doc """ results = genplots(funcs, refs; kwargs...)
+@doc """ results = genplots(funcs, refs; eps, kwargs...)
 Generate the plots needed for the tests in ControlSystems.jl
 """ ->
-function genplots(funcs, refs; eps=1e-3, kwargs...)
+function genplots(funcs, refs; eps=0.01*ones(length(refs)), kwargs...)
     gadfly()
     results = Array(VisualRegressionTests.VisualTestResult, length(refs))
     #Run/generate tests
     for (i,ref) in enumerate(refs)
         testf(fn) = png(funcs[i](), fn)
-        results[i] = test_images(VisualTest(testf, ref); eps=eps, kwargs...)
+        results[i] = test_images(VisualTest(testf, ref); eps=eps[i], kwargs...)
     end
     results
 end
 
-@doc """funcs, refs = getexamples()
+@doc """funcs, refs, eps = getexamples()
 Get the example functions and locations of reference plots needed for the tests in ControlSystems.jl
 """ ->
 function getexamples()
@@ -60,5 +60,7 @@ function getexamples()
             "impulse.png", "lsim.png", "margin.png", "gangoffour.png", "pzmap.png"]
     funcs = [bodegen, nyquistgen, sigmagen, nicholsgen, stepgen,
              impulsegen, lsimgen, margingen, gangoffourgen, pzmapgen]
-    funcs, map(s -> plotsdir*s, refs)
+    eps = 0.01*ones(length(refs));
+    eps[1] = 0.02; eps[9] = 0.03;
+    funcs, map(s -> plotsdir*s, refs), eps
 end
