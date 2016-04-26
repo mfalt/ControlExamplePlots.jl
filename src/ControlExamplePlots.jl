@@ -7,7 +7,7 @@ catch
     Pkg.clone("https://github.com/tbreloff/VisualRegressionTests.jl.git")
 end
 
-using ControlSystems, Plots
+using ControlSystems, Plots, VisualRegressionTests
 
 include("genplots.jl")
 
