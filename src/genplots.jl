@@ -4,15 +4,16 @@ export genplots, getexamples, runplotgen
 Run full generation of the plots needed for the tests in ControlSystems.jl
 """ ->
 function runplotgen()
-  funcs, refs = getexamples()
-  genplots(funcs, refs)
+  funcs, refs, eps = getexamples()
+  genplots(funcs, refs, eps=eps)
 end
 
 @doc """ results = genplots(funcs, refs; eps, kwargs...)
 Generate the plots needed for the tests in ControlSystems.jl
 """ ->
 function genplots(funcs, refs; eps=0.01*ones(length(refs)), kwargs...)
-    gadfly()
+    ENV["MPLBACKEND"] = "Agg"
+    pyplot()
     results = Array(VisualRegressionTests.VisualTestResult, length(refs))
     #Run/generate tests
     for (i,ref) in enumerate(refs)
