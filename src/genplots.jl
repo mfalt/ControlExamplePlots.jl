@@ -61,7 +61,6 @@ function getexamples()
             "impulse.png", "lsim.png", "margin.png", "gangoffour.png", "pzmap.png"]
     funcs = [bodegen, nyquistgen, sigmagen, nicholsgen, stepgen,
              impulsegen, lsimgen, margingen, gangoffourgen, pzmapgen]
-    eps = 0.01*ones(length(refs));
-    eps[1] = 0.02; eps[9] = 0.03;
+    eps = 0.001*ones(length(refs));
     funcs, map(s -> plotsdir*s, refs), eps
 end
