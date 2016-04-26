@@ -1,0 +1,63 @@
+export genplots, getexamples, runplotgen
+
+@doc """ results = runplotgen()
+Run full generation of the plots needed for the tests in ControlSystems.jl
+""" ->
+function runplotgen()
+  funcs, refs = getexamples()
+  genplots(funcs, refs)
+end
+
+@doc """ results = genplots(funcs, refs; kwargs...)
+Generate the plots needed for the tests in ControlSystems.jl
+""" ->
+function genplots(funcs, refs; eps=1e-3, kwargs...)
+    gadfly()
+    results = Array(VisualRegressionTests.VisualTestResult, length(refs))
+    #Run/generate tests
+    for (i,ref) in enumerate(refs)
+        testf(fn) = png(funcs[i](), fn)
+        results[i] = test_images(VisualTest(testf, ref); eps=eps, kwargs...)
+    end
+end
+
+@doc """funcs, refs = getexamples()
+Get the example functions and locations of reference plots needed for the tests in ControlSystems.jl
+""" ->
+function getexamples()
+    tf1 = tf([1],[1,1], inputnames=["Inp1"], outputnames=["Out1"])
+    tf2 = tf([1/5,2],[1,1,1], inputnames=["Inp2"], outputnames=["Out1"])
+    sys = [tf1 tf2]
+    sysss = ss([-1 2; 0 1], [1 0; 1 1], [1 0; 0 1], [0.1 0; 0 -0.2],
+        inputnames=["MyIn1", "MyIn2"], statenames=["State1", "State2"])
+
+    ws = logspace(-2,2,200)
+    ts = 0:0.01:5
+    bodegen() = begin
+      setPlotScale("dB")
+      bodeplot(sys,ws)
+    end
+    nyquistgen() = nyquistplot(sysss,ws)
+    sigmagen() = sigmaplot(sysss,ws)
+    #Only siso for now
+    nicholsgen() = nicholsplot(tf1,ws)
+
+    stepgen() = stepplot(sys,ts, l=(:dash, 4))
+    impulsegen() = impulseplot(sys,ts, l=:blue)
+    L = lqr(sysss.A, sysss.B, eye(2), eye(2))
+    lsimgen() = lsimplot(sysss, (i,x)->-L*x, ts, [1;2])
+
+    margingen() = marginplot([tf1, tf2], ws)
+    gangoffourgen() = begin
+      setPlotScale("log10");
+      gangoffourplot(tf1, [tf(1), tf(5)])
+    end
+    pzmapgen() = pzmap(tf2, xlims=(-15,5))
+
+    plotsdir = Pkg.dir("ControlExamplePlots")*"/src/figures/"
+    refs = ["bode.png", "nyquist.png", "sigma.png", "nichols.png", "step.png",
+            "impulse.png", "lsim.png", "margin.png", "gangoffour.png", "pzmap.png"]
+    funcs = [bodegen, nyquistgen, sigmagen, nicholsgen, stepgen,
+             impulsegen, lsimgen, margingen, gangoffourgen, pzmapgen]
+    funcs, map(s -> plotsdir*s, refs)
+end

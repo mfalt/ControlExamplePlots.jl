@@ -1,4 +1,4 @@
-using ExamplePlots
+using ControlExamplePlots
 using Base.Test
 
 # write your own tests here

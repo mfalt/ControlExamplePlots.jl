@@ -1,4 +1,4 @@
-The ExamplePlots.jl package is licensed under the MIT "Expat" License:
+The ControlExamplePlots.jl package is licensed under the MIT "Expat" License:
 
 > Copyright (c) 2016: Mattias Fält.
 >
