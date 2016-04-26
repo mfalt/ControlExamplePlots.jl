@@ -19,6 +19,7 @@ function genplots(funcs, refs; eps=1e-3, kwargs...)
         testf(fn) = png(funcs[i](), fn)
         results[i] = test_images(VisualTest(testf, ref); eps=eps, kwargs...)
     end
+    results
 end
 
 @doc """funcs, refs = getexamples()

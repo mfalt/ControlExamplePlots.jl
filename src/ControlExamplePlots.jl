@@ -1,9 +1,13 @@
 module ControlExamplePlots
 
-Pkg.status("VisualRegressionTests") == nothing &&
-  error("VisualRegressionTests needs to be installed, get it at https://github.com/tbreloff/VisualRegressionTests.jl")
+try
+    Pkg.installed("VisualRegressionTests")
+catch
+    warning("VisualRegressionTests needs to be installed to test plots, adding now:")
+    Pkg.clone("https://github.com/tbreloff/VisualRegressionTests.jl.git")
+end
 
-using ControlSystems, Plots, VisualRegressionTests
+using ControlSystems, Plots
 
 include("genplots.jl")
 
