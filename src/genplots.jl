@@ -13,7 +13,6 @@ Generate the plots needed for the tests in ControlSystems.jl
 """ ->
 function genplots(funcs, refs; eps=0.01*ones(length(refs)), kwargs...)
     ENV["MPLBACKEND"] = "Agg"
-    pyplot()
     results = Array(VisualRegressionTests.VisualTestResult, length(refs))
     #Run/generate tests
     for (i,ref) in enumerate(refs)
