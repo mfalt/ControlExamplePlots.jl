@@ -13,7 +13,7 @@ Generate the plots needed for the tests in ControlSystems.jl
 """ ->
 function genplots(funcs, refs; eps=0.01*ones(length(refs)), kwargs...)
     ENV["MPLBACKEND"] = "Agg"
-    results = Array(VisualRegressionTests.VisualTestResult, length(refs))
+    results = Array{VisualRegressionTests.VisualTestResult,1}(length(refs))
     #Run/generate tests
     for (i,ref) in enumerate(refs)
         testf(fn) = png(funcs[i](), fn)
@@ -43,8 +43,8 @@ function getexamples()
     #Only siso for now
     nicholsgen() = nicholsplot(tf1,ws)
 
-    stepgen() = stepplot(sys,ts, l=(:dash, 4))
-    impulsegen() = impulseplot(sys,ts, l=:blue)
+    stepgen() = stepplot(sys, ts[end], ts[2]-ts[1], l=(:dash, 4))
+    impulsegen() = impulseplot(sys, ts[end], ts[2]-ts[1], l=:blue)
     L = lqr(sysss.A, sysss.B, eye(2), eye(2))
     lsimgen() = lsimplot(sysss, (i,x)->-L*x, ts, [1;2])
 
