@@ -54,12 +54,13 @@ function getexamples()
       gangoffourplot(tf1, [tf(1), tf(5)])
     end
     pzmapgen() = pzmap(tf2, xlims=(-15,5))
+    rlocusgen() = rlocusplot(tf2)
 
     plotsdir = Pkg.dir("ControlExamplePlots")*"/src/figures/"
     refs = ["bode.png", "nyquist.png", "sigma.png", "nichols.png", "step.png",
-            "impulse.png", "lsim.png", "margin.png", "gangoffour.png", "pzmap.png"]
+            "impulse.png", "lsim.png", "margin.png", "gangoffour.png", "pzmap.png", "rlocus.png"]
     funcs = [bodegen, nyquistgen, sigmagen, nicholsgen, stepgen,
-             impulsegen, lsimgen, margingen, gangoffourgen, pzmapgen]
+             impulsegen, lsimgen, margingen, gangoffourgen, pzmapgen, rlocusgen]
     eps = 0.001*ones(length(refs));
     funcs, map(s -> plotsdir*s, refs), eps
 end
