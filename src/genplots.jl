@@ -46,7 +46,7 @@ function getexamples()
     stepgen() = stepplot(sys, ts[end], ts[2]-ts[1], l=(:dash, 4))
     impulsegen() = impulseplot(sys, ts[end], ts[2]-ts[1], l=:blue)
     L = lqr(sysss.A, sysss.B, eye(2), eye(2))
-    lsimgen() = lsimplot(sysss, (i,x)->-L*x, ts, [1;2])
+    lsimgen() = lsimplot(sysss, (x,i)->-L*x, ts, [1;2])
 
     margingen() = marginplot([tf1, tf2], ws)
     gangoffourgen() = begin
