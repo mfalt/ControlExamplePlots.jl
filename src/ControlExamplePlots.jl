@@ -1,6 +1,6 @@
 module ControlExamplePlots
 
-using ControlSystems, Plots, VisualRegressionTests
+using ControlSystems, Plots, VisualRegressionTests, Gtk
 
 include("genplots.jl")
 
