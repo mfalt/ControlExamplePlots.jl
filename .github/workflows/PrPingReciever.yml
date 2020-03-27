@@ -3,7 +3,7 @@ name: ControlSystems PR Ping reciever
 on: [repository_dispatch]
 
 jobs:
-  ping-pong:
+  run-and-comment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1.0.0
@@ -20,5 +20,7 @@ jobs:
         run: |
           echo "Got PR Update"
           echo "Verified user"
+          pwd
+          ls
           julia -e 'pwd()'
-          julia -e 'include("../utils/pr_commenter.jl")'
+          julia ./utils/pr_commenter.jl
