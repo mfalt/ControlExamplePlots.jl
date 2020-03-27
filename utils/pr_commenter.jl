@@ -2,6 +2,10 @@
 println("Running comment script!")
 println("PR_ID is $(ENV["PR_ID"])")
 
+# Set plot globals
+ENV["PLOTS_TEST"] = "true"
+ENV["GKSwstype"] = "100"
+
 # Stolen from https://discourse.julialang.org/t/collecting-all-output-from-shell-commands/15592/6
 """ Read output from terminal command """
 function communicate(cmd::Cmd, input)
@@ -52,6 +56,7 @@ end
 println("running checkout_ControlSystems_PR")
 checkout_ControlSystems_PR(org, origin, ENV["PR_ID"])
 
+println("using ControlExamplePlots")
 using ControlExamplePlots
 
 """ Generate figures for plot tests"""
