@@ -11,6 +11,7 @@ jobs:
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
       - name: Do stuff
         if: github.event.action == 'prupdate' && github.event.sender.login == 'JuliaControlBot'
-        run: echo "Got PR Update" 
-        run: echo "Verified user" 
-        run: echo "Full event '${{ tojson(github.event) }}' "
+        run: |
+          echo "Got PR Update" 
+          echo "Verified user" 
+          echo "Full event '${{ tojson(github.event) }}' "
