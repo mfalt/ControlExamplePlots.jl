@@ -1,17 +1,24 @@
 name: ControlSystems PR Ping reciever
- 
+
 on: [repository_dispatch]
- 
+
 jobs:
   ping-pong:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1.0.0
+      - uses: julia-actions/setup-julia@v1
+      - run: julia -e 'println("Julia is running!")'
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
       - name: Do stuff
+        env:
+          ACCESS_TOKEN_BOT: ${{ secrets.ACCESS_TOKEN_BOT }}
+          PR_ID: ${{ github.event.client_payload.pr_number }}
         if: github.event.action == 'prupdate' && github.event.sender.login == 'JuliaControlBot'
         run: |
-          echo "Got PR Update" 
-          echo "Verified user" 
-          echo "Full event '${{ tojson(github.event) }}' "
+          echo "Got PR Update"
+          echo "Verified user"
+          julia -e 'pwd()'
+          julia -e 'include("utils/pr_commenter")'
