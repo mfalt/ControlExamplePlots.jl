@@ -42,6 +42,7 @@ Pkg.develop(Pkg.PackageSpec(url="https://github.com/$org/ControlExamplePlots.jl.
 println("adding packages")
 Pkg.add("UUIDs")
 Pkg.add("GitHub")
+Pkg.add("ImageMagick") # Has no UUID
 
 """ Checkout ControlSystems PR"""
 function checkout_ControlSystems_PR(org, origin, ID)
@@ -103,6 +104,8 @@ function replace_and_push_files(org, origin, ID, new_branch_name)
         mv(r.testFilename, r.refFilename, force=true)
     end
     # Add figures
+    run(`git config --global user.email "name@example.com"`)
+    run(`git config --global user.name "JuliaControl Bot"`)
     run(`git add src/figures/*`)
     run(`git commit -m "automated plots test"`)
     run(`git remote set-url $origin https://JuliaControlBot:$(ENV["ACCESS_TOKEN_BOT"])@github.com/$org/ControlExamplePlots.jl.git`)

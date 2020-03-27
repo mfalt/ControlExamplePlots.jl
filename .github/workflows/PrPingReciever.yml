@@ -11,8 +11,6 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
-      - name: Install deps
-        run: sudo apt-get install xvfb
       - name: Do stuff
         env:
           ACCESS_TOKEN_BOT: ${{ secrets.ACCESS_TOKEN_BOT }}
