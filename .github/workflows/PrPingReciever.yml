@@ -8,7 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1.0.0
       - uses: julia-actions/setup-julia@v1
-      - run: julia -e 'println("Julia is running!")'
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
@@ -20,7 +19,4 @@ jobs:
         run: |
           echo "Got PR Update"
           echo "Verified user"
-          pwd
-          ls
-          julia -e 'pwd()'
           julia ./utils/pr_commenter.jl

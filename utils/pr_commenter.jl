@@ -26,7 +26,7 @@ function communicate(cmd::Cmd, input)
 end
 
 # Values
-origin = "mfalt" # "origin"
+origin = "origin"
 org = "mfalt" # JuliaControl
 ID = ENV["PR_ID"]
 
