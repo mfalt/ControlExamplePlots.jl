@@ -21,4 +21,4 @@ jobs:
           echo "Got PR Update"
           echo "Verified user"
           julia -e 'pwd()'
-          julia -e 'include("utils/pr_commenter")'
+          julia -e 'include("../utils/pr_commenter.jl")'
