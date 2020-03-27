@@ -11,12 +11,6 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
-      - name: Install deps
-        run: sudo apt-get install xvfb
-      - name: test without xvbf
-        run: julia -e 'using Pkg; Pkg.add("BinDeps"); Pkg.add("Gtk"); using BinDeps; println(BinDeps.debug("Gtk")); Pkg.build("Gtk");'
-      - name: test with xvbf
-        run: xvbf-run julia -e 'using Pkg; Pkg.add("BinDeps"); Pkg.add("Gtk"); using BinDeps; println(BinDeps.debug("Gtk")); Pkg.build("Gtk");'
       - name: Do stuff
         env:
           ACCESS_TOKEN_BOT: ${{ secrets.ACCESS_TOKEN_BOT }}
@@ -25,4 +19,4 @@ jobs:
         run: |
           echo "Got PR Update"
           echo "Verified user"
-          julia ./utils/pr_commenter.jl
+          xvbf-run julia ./utils/pr_commenter.jl
