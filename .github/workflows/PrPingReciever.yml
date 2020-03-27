@@ -11,4 +11,4 @@ jobs:
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
       - name: Do stuff
         if: github.event.action == 'prupdate'
-        run: echo test
+        run: echo "Full event '${{ tojson(github.event) }}' "
