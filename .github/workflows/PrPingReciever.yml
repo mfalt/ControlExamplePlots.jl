@@ -13,11 +13,6 @@ jobs:
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
       - name: Install deps
         run: sudo apt-get install xvfb
-      - name: test with xvfb- name: Install deps
-        run: sudo apt-get install xvfb
-      - name: test with xvfb
-        run: julia -e 'using Pkg; Pkg.add("BinDeps"); Pkg.add("Gtk"); using BinDeps; println(BinDeps.debug("Gtk")); Pkg.build("Gtk");'- name: Install deps
-          run: sudo apt-get install xvfb
       - name: Do stuff
         env:
           ACCESS_TOKEN_BOT: ${{ secrets.ACCESS_TOKEN_BOT }}
