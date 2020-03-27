@@ -1,0 +1,14 @@
+name: ControlSystems PR Ping reciever
+ 
+on: [repository_dispatch]
+ 
+jobs:
+  ping-pong:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Event Information
+        run: |
+          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+      - name: Do stuff
+        if: github.event.action == 'prupdate'
+        run: echo test
