@@ -69,8 +69,8 @@ function gen_figures()
 
     funcs, refs, eps = getexamples()
     # Make it easier to pass tests on different systems
-    # Set to a factor 2 of common errors
-    eps = [0.15, 0.015, 0.1, 0.01, 0.01, 0.02, 0.01, 0.15, 0.15, 0.01, 0.01]
+    # Set to a factor 2*2 of common errors
+    eps = 2*[0.15, 0.015, 0.1, 0.01, 0.01, 0.02, 0.01, 0.15, 0.15, 0.01, 0.01]
     res = genplots(funcs, refs, eps=eps, popup=false)
     return res
 end
@@ -124,8 +124,9 @@ function get_message(res, org, old_commit, new_branch_name)
     -----------| ----------------| ---------
     """
     for r in res
-        status = string(r.status)
+        diff = string(r.diff)
         fig_name = basename(r.refFilename)
+        status = isa(diff, Number) ? round(r.diff, digits=4) : "Error"
         #str *= "$(status[i]) | ![Reference](https://raw.githubusercontent.com/mfalt/ControlSystems.jl/tmp-plots-$(tmp_name)/tmpFigures/$(fig_names[i])) | ![New](https://raw.githubusercontent.com/mfalt/ControlSystems.jl/tmp-plots-$(tmp_name)/tmpFigures/new-$(fig_names[i]))\n"
         str *= "$(status) | ![Reference](https://raw.githubusercontent.com/$org/ControlExamplePlots.jl/$old_commit/src/figures/$(fig_name)) | ![New](https://raw.githubusercontent.com/$org/ControlExamplePlots.jl/$(new_branch_name)/src/figures/$(fig_name))\n"
     end
