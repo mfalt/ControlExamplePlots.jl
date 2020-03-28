@@ -124,9 +124,8 @@ function get_message(res, org, old_commit, new_branch_name)
     -----------| ----------------| ---------
     """
     for r in res
-        diff = string(r.diff)
         fig_name = basename(r.refFilename)
-        status = isa(diff, Number) ? round(r.diff, digits=4) : "Error"
+        status = (isdefined(r, :diff) && isa(r.diff, Number)) ? round(r.diff, digits=4) : string(r.status)
         #str *= "$(status[i]) | ![Reference](https://raw.githubusercontent.com/mfalt/ControlSystems.jl/tmp-plots-$(tmp_name)/tmpFigures/$(fig_names[i])) | ![New](https://raw.githubusercontent.com/mfalt/ControlSystems.jl/tmp-plots-$(tmp_name)/tmpFigures/new-$(fig_names[i]))\n"
         str *= "$(status) | ![Reference](https://raw.githubusercontent.com/$org/ControlExamplePlots.jl/$old_commit/src/figures/$(fig_name)) | ![New](https://raw.githubusercontent.com/$org/ControlExamplePlots.jl/$(new_branch_name)/src/figures/$(fig_name))\n"
     end
